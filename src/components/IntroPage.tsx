@@ -189,7 +189,7 @@ export default function IntroPage({ onEnter, onAboutClick, isDarkMode, toggleDar
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 1 }}
             >
-              Create a magical birthday experience with personalized wishes, age milestones, and beautiful celebrations.
+              Here Is Your a magical birthday experience with personalized wishes, age milestones, and beautiful celebrations.
             </motion.p>
           </motion.div>
         </motion.div>

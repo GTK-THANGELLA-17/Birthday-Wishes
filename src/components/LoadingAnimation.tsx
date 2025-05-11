@@ -210,7 +210,7 @@ const LoadingAnimation = ({ isDarkMode, isIntro = false }: LoadingAnimationProps
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          Welcome to Snigdha's Birthday
+          The magic begins to move... Welcome, Snigdha!
         </motion.h2>
         
         {/* Name with floating letters for better mobile compatibility */}

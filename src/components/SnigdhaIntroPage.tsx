@@ -235,7 +235,7 @@ export default function SnigdhaIntroPage({ onEnter, isDarkMode, toggleDarkMode }
                     }
                   }}
                 >
-                  Snigdha's Birthday
+                  Hey Pandu! Or should I say Snigdha? 😄
                 </motion.h1>
                 
                 <motion.p 
@@ -246,7 +246,7 @@ export default function SnigdhaIntroPage({ onEnter, isDarkMode, toggleDarkMode }
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.8, duration: 1 }}
                 >
-                  Create a magical birthday experience with personalized wishes, age milestones, and beautiful celebrations.
+                  Get ready for a magical birthday experience, filled with personalized wishes, unforgettable milestones, and the most beautiful celebrations! 🎉🎂✨
                 </motion.p>
               </motion.div>
             </motion.div>
