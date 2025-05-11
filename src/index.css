@@ -1,0 +1,371 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+ 
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    /* Light Mode: Ice Blue */
+    --primary: 203 89% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 222.2 47.4% 11.2%;
+
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+ 
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+
+    /* Dark Mode: Ice Blue */
+    --primary: 196 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 20%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    /* Dark Mode: Light Orange accent */
+    --accent: 30 100% 70%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --ring: 216 34% 17%;
+
+    --radius: 0.5rem;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+
+/* Custom styles for Snigdha's Birthday Application */
+.font-birthday {
+  font-family: 'Dancing Script', cursive;
+}
+
+/* Button styling with consistent colors in light/dark modes */
+button.bg-white {
+  color: rgb(59, 130, 246) !important; /* ice blue */
+}
+
+.dark button.bg-gray-900 {
+  color: rgb(255, 237, 213) !important; /* light orange */
+  border-color: rgba(100, 100, 100, 0.5);
+}
+
+/* Button glowing border effect on click */
+@keyframes border-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 10px 3px rgba(59, 130, 246, 0.5);
+    border-color: rgba(59, 130, 246, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+}
+
+/* Add the button loading edge effect animation */
+.btn-edge-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-edge-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: btn-edge-load 1s linear forwards;
+}
+
+@keyframes btn-edge-load {
+  0% {
+    width: 0;
+    left: 0;
+  }
+  50% {
+    width: 100%;
+    left: 0;
+  }
+  100% {
+    width: 0;
+    left: 100%;
+  }
+}
+
+/* Fix button text color for all theme-colored buttons */
+.dark button.bg-blue-700,
+.dark button.bg-blue-600 {
+  color: white !important;
+  border: none;
+}
+
+/* New button click effect */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+button:active::after {
+  animation: ripple 0.6s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(40, 40);
+  }
+}
+
+/* Button Edge Highlight Effect */
+.button-edge-effect {
+  position: relative;
+}
+
+.button-edge-effect::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #3B82F6, #60A5FA, #93C5FD, #FB923C);
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.dark .button-edge-effect::before {
+  background: linear-gradient(45deg, #3B82F6, #60A5FA, #FB923C, #FFEDD5);
+}
+
+.button-edge-effect:active::before {
+  opacity: 1;
+  animation: rotate-gradient 0.6s linear;
+}
+
+@keyframes rotate-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;  
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 3D card effects */
+.birthday-card-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: all 0.3s ease;
+  backface-visibility: hidden;
+}
+
+.birthday-card-3d:hover {
+  transform: translateZ(20px) rotateX(3deg) rotateY(5deg);
+  box-shadow: 0 25px 35px rgba(0,0,0,0.15);
+}
+
+/* Remove blur effects from cards */
+.birthday-card,
+.milestone-card {
+  backdrop-filter: none !important;
+  filter: none !important;
+}
+
+.birthday-card:hover,
+.milestone-card:hover {
+  transform: translateY(-5px);
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+.birthday-card *,
+.milestone-card * {
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* Make intro video autoplay and show controls */
+video.intro-video {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+/* Improve image display in media slideshow */
+.media-slideshow {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.media-slideshow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.media-slideshow:hover img {
+  transform: scale(1.02);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .birthday-card-3d:hover {
+    transform: translateZ(10px) rotateX(1deg) rotateY(2deg);
+  }
+  
+  button {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .media-slideshow {
+    max-height: 300px;
+  }
+}
+
+/* Snigdha-specific styles */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+  }
+}
+
+.dark .pulse-glow {
+  animation: dark-pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes dark-pulse-glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(96, 165, 250, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(251, 146, 60, 0.8);
+  }
+}
+
+/* Print styles - keep at end */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  
+  body {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  
+  .bg-gradient-to-r, [class*="bg-gradient"] {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    color: #000 !important;
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: initial !important;
+  }
+}

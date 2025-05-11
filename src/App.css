@@ -1,0 +1,217 @@
+
+/* Base styling */
+#root {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Remove fixed max-width to make it more responsive */
+@media (min-width: 1280px) {
+  #root {
+    max-width: 1280px;
+  }
+}
+
+/* Responsive padding */
+.responsive-container {
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .responsive-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-container {
+    padding: 2rem;
+  }
+}
+
+/* Animation classes */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Card styling */
+.card {
+  padding: 2em;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Container for 3D effect cards */
+.perspective-container {
+  perspective: 1000px;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.card-3d:hover {
+  transform: rotateY(10deg) rotateX(5deg);
+}
+
+/* Text styling */
+.birthday-heading {
+  background-image: linear-gradient(45deg, #FF5E78, #FFD166, #06D6A0, #118AB2);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-animation 8s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Floating animation for birthday elements */
+.floating {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Birthday cake candle effect */
+.candle-glow {
+  box-shadow: 0 0 15px 5px rgba(255, 165, 0, 0.7);
+  animation: candle-flicker 2s ease-in-out infinite;
+}
+
+@keyframes candle-flicker {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 15px 5px rgba(255, 165, 0, 0.7);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 25px 8px rgba(255, 165, 0, 0.5);
+  }
+}
+
+/* Additional birthday effect styles */
+.sparkle-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkle-effect::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 10%, transparent 10.5%),
+              radial-gradient(circle, rgba(255,255,255,0.8) 10%, transparent 10.5%);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+  animation: sparkle-rotate 10s linear infinite;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+@keyframes sparkle-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  p {
+    font-size: 1.125rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background-color: rgba(30, 30, 30, 0.8);
+  }
+  
+  .candle-glow {
+    box-shadow: 0 0 15px 5px rgba(255, 165, 0, 0.9);
+  }
+}
