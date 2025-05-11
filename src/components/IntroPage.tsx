@@ -207,7 +207,7 @@ export default function IntroPage({ onEnter, onAboutClick, isDarkMode, toggleDar
               className="text-lg px-8 py-6 relative overflow-hidden group"
             >
               <Sparkles className="mr-2 h-5 w-5" />
-              Start Celebrating
+              Click Start Celebrating
             </Button>
           </motion.div>
           
