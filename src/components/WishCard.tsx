@@ -66,16 +66,15 @@ ${selectedWish}
         }}
       >
         <CardHeader>
-          <CardTitle className="flex items-center justify-center gap-2">
-            <motion.div
-              animate={{ scale: [1, 1.2, 1], color: isDarkMode ? ['#93C5FD', '#FB923C', '#93C5FD'] : undefined }}
-              transition={{ duration: 3, repeat: Infinity }}
-            >
-              <Heart className={`h-6 w-6 ${isDarkMode ? 'text-blue-300 filter drop-shadow-[0_0_8px_rgba(186,230,253,0.7)]' : 'text-blue-500'}`} />
-            </motion.div>
-            <span>Birthday Wishes</span>
-          </CardTitle>
-        </CardHeader>
+  <CardTitle className="flex items-center justify-center gap-2">
+    <motion.div
+      animate={{ scale: [1, 1.2, 1], color: isDarkMode ? ['#93C5FD', '#FB923C', '#93C5FD'] : undefined }}
+      transition={{ duration: 3, repeat: Infinity }}
+    />
+    <span>Birthday Wishes</span>
+  </CardTitle>
+</CardHeader>
+
         
         <CardContent className="space-y-4">
           <div className="flex flex-col md:flex-row gap-6">
