@@ -67,11 +67,6 @@ export default function SnigdhaCelebration({
       poster: "/Birthday 2.jpg"
     },
     { 
-      type: "image" as const,
-      src: "/Birthday 1.jpg", 
-      alt: "Celebrating under the stars" 
-    },
-    { 
       type: "video" as const,
       src: "/HB 17.mp4",
       poster: "/Birthday 3.jpg"
@@ -91,6 +86,7 @@ export default function SnigdhaCelebration({
       src: "/HB 9.mp4",
       poster: "/Birthday 3.jpg"
     },
+    
   ];
 
   // Check if the page visibility changes to handle voice playback
