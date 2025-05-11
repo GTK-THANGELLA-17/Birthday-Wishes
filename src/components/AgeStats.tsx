@@ -33,7 +33,7 @@ export default function AgeStats({ dob, isDarkMode }: AgeStatsProps) {
   }, [dob]);
   
   // Get milestone message based on age
- const getMilestoneMessage = (years) => {
+const getMilestoneMessage = (years) => {
   if (years < 18) {
     return {
       title: "Chapters of Change 📖✨",
@@ -56,9 +56,11 @@ export default function AgeStats({ dob, isDarkMode }: AgeStatsProps) {
     };
   }
 };
-  
-  const milestone = getMilestoneMessage();
-  
+
+// Call the function with an age under 18 to get "Chapters of Change"
+const milestone = getMilestoneMessage(15); // Example: 15 years old
+console.log(milestone);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}

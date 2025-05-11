@@ -13,8 +13,8 @@ interface AudioControllerProps {
 }
 
 export default function AudioController({ 
-  introMusicUrl = '/HB MUSIC 2.mp3',
-  mainMusicUrl = '/Bg music.mp3',
+  introMusicUrl = '/Bg music.mp3',
+  mainMusicUrl = '/HB MUSIC 2.mp3',
   autoPlay = true,
   isIntro = true,
   isDarkMode = false
