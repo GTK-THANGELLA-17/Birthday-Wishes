@@ -53,6 +53,26 @@ export default function SnigdhaCelebration({
   const memories = [
     { 
       type: "image" as const,
+      src: "/S 2.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
+      src: "/S 3.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
+      src: "/S 4.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
+      src: "/S 5.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
       src: "/Birthday 2.jpg", 
       alt: "Celebrating under the stars" 
     },
@@ -64,7 +84,7 @@ export default function SnigdhaCelebration({
     { 
       type: "video" as const,
       src: "/H B 5.mp4", 
-      poster: "/Birthday 2.jpg"
+      poster: "/S 2.png"
     },
     { 
       type: "video" as const,
