@@ -235,7 +235,7 @@ export default function SnigdhaIntroPage({ onEnter, isDarkMode, toggleDarkMode }
                     }
                   }}
                 >
-                  Hey Pandu! Or should I say Snigdha? 😄
+                   Hey HI👋.. Pandu!💫 Or should I say Snigdha? 😄
                 </motion.h1>
                 
                 <motion.p 
