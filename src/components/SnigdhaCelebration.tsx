@@ -73,6 +73,21 @@ export default function SnigdhaCelebration({
     },
     { 
       type: "image" as const,
+      src: "/Image 6.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
+      src: "/Image 7.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
+      src: "/Image 9.png", 
+      alt: "Celebrating under the stars" 
+    },
+    { 
+      type: "image" as const,
       src: "/S 3.png", 
       alt: "Celebrating under the stars" 
     },
