@@ -3,15 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export type MemoryItem = {
-  type: 'image' | 'video';
-  src: string;
-  alt?: string;
-  title?: string;
-  poster?: string; // for video
-};
+export type MemoryItem = 
+  | { type: 'image'; src: string; alt?: string; title?: string }
+  | { type: 'video'; src: string; poster?: string; title?: string };
 
-interface SlideshowProps {
+interface SpecialMemoriesSlideshowProps {
   memories: MemoryItem[];
   autoPlay?: boolean;
   interval?: number;
@@ -21,187 +17,267 @@ interface SlideshowProps {
 export default function SpecialMemoriesSlideshow({
   memories,
   autoPlay = true,
-  interval = 2500,
-  isDarkMode = false,
-}: SlideshowProps) {
-  const [index, setIndex] = useState(0);
+  interval = 2000,
+  isDarkMode = false
+}: SpecialMemoriesSlideshowProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-  const [loaded, setLoaded] = useState(false);
+  const [isMediaLoaded, setIsMediaLoaded] = useState(false);
+  const slideshowRef = useRef<HTMLDivElement>(null);
 
-  const timer = useRef<NodeJS.Timeout | null>(null);
-
-  // Preload all images once on mount
+  // Preload images and posters
   useEffect(() => {
-    memories.forEach(item => {
-      if (item.type === 'image' || (item.type === 'video' && item.poster)) {
-        const img = new Image();
-        img.src = item.type === 'image' ? item.src : item.poster!;
+    memories.forEach(memory => {
+      if (memory.type === 'image') {
+        const img = new window.Image();
+        img.src = memory.src;
+      } else if (memory.type === 'video' && memory.poster) {
+        const img = new window.Image();
+        img.src = memory.poster;
       }
     });
   }, [memories]);
 
-  // Autoplay
+  // Auto-play
   useEffect(() => {
     if (!autoPlay) return;
-    timer.current = setTimeout(() => {
-      next();
+    const timer = setTimeout(() => {
+      handleNext();
     }, interval);
-    return () => clearTimeout(timer.current!);
-  }, [index, autoPlay, interval]);
+    return () => clearTimeout(timer);
+  }, [currentIndex, autoPlay, interval]);
 
-  const next = () => {
-    setDirection(1);
-    setIndex(prev => (prev + 1) % memories.length);
-    setLoaded(false);
-  };
-
-  const prev = () => {
+  const handlePrev = () => {
     setDirection(-1);
-    setIndex(prev => (prev - 1 + memories.length) % memories.length);
-    setLoaded(false);
+    setCurrentIndex((prev) => (prev - 1 + memories.length) % memories.length);
+    setIsMediaLoaded(false);
   };
 
-  const item = memories[index];
+  const handleNext = () => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % memories.length);
+    setIsMediaLoaded(false);
+  };
 
-  const bgGradient = isDarkMode
-    ? "bg-gradient-to-br from-slate-800 via-slate-900 to-black"
-    : "bg-gradient-to-br from-blue-100 via-blue-50 to-white";
+  const currentMemory = memories[currentIndex];
+
+  // Styles
+  const containerBg = isDarkMode
+    ? "bg-gradient-to-br from-blue-900 via-cyan-900 to-blue-800"
+    : "bg-gradient-to-br from-blue-100 via-cyan-100 to-blue-50";
+
+  const borderGradient = isDarkMode
+    ? "border-2 border-blue-300/50"
+    : "border-2 border-blue-200/40";
+
+  const shadowStyle = isDarkMode
+    ? "shadow-[0_12px_40px_-4px_rgba(186,230,253,0.3)]"
+    : "shadow-[0_12px_40px_-4px_rgba(59,130,246,0.12)]";
+
+  const getContainerClasses = () => [
+    "relative overflow-hidden rounded-2xl mx-auto w-full",
+    "h-[320px] sm:h-[400px] md:h-[550px] lg:h-[700px]",
+    containerBg, borderGradient, shadowStyle,
+    "transition-all duration-300"
+  ].join(' ');
+
+  const getMediaClasses = () => [
+    "object-contain rounded-xl shadow-lg mx-auto select-none",
+    "w-full h-full",
+    "max-h-[230px] sm:max-h-[330px] md:max-h-[440px] lg:max-h-[600px]",
+  ].join(' ');
 
   return (
-    <div className="max-w-4xl mx-auto px-2">
+    <div className="w-full max-w-3xl md:max-w-5xl mx-auto px-1 sm:px-2 md:px-4">
       {/* Title */}
-      <motion.div
-        initial={{ opacity: 0, y: -15 }}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-6"
+        transition={{ duration: 0.55 }}
+        className="text-center mb-4 sm:mb-5"
       >
-        <h2 className={`text-3xl font-bold flex items-center justify-center gap-3 ${isDarkMode ? 'text-blue-100' : 'text-blue-700'}`}>
-          <Heart className={`h-7 w-7 ${isDarkMode ? 'text-blue-200' : 'text-blue-500'}`} />
+        <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold ${
+          isDarkMode ? 'text-blue-200' : 'text-blue-700'
+        } mb-1 flex items-center justify-center gap-2 sm:gap-3`}>
+          <Heart className={`h-7 w-7 ${isDarkMode ? 'text-blue-300' : 'text-blue-400'}`} />
           Special Memories
-          <Heart className={`h-7 w-7 ${isDarkMode ? 'text-blue-200' : 'text-blue-500'}`} />
+          <Heart className={`h-7 w-7 ${isDarkMode ? 'text-blue-300' : 'text-blue-400'}`} />
         </h2>
+        <p className={`${isDarkMode ? 'text-blue-100' : 'text-gray-500'} text-sm sm:text-lg`}>
+          Beautiful moments captured in time
+        </p>
       </motion.div>
 
-      {/* Slideshow Container */}
-      <div className={`relative overflow-hidden rounded-xl ${bgGradient} border border-blue-300/40 shadow-xl mx-auto`}
+      {/* Slideshow */}
+      <motion.div
+        ref={slideshowRef}
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className={getContainerClasses()}
         style={{
-          width: '100%',
-          maxWidth: '100%',
-          aspectRatio: '16 / 9', // or you can use fixed height
-          minHeight: '320px'
+          perspective: '1200px',
         }}
       >
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" initial={false}>
           <motion.div
-            key={index}
+            key={currentIndex}
             initial={{
               opacity: 0,
-              x: direction > 0 ? 100 : -100,
-              scale: 0.98,
+              scale: 0.97,
+              x: direction > 0 ? 110 : -110,
+              rotateY: direction > 0 ? -12 : 12,
             }}
             animate={{
               opacity: 1,
-              x: 0,
               scale: 1,
+              x: 0,
+              rotateY: 0,
             }}
             exit={{
               opacity: 0,
-              x: direction > 0 ? -100 : 100,
-              scale: 0.98,
+              scale: 0.97,
+              x: direction > 0 ? -110 : 110,
+              rotateY: direction > 0 ? 12 : -12,
             }}
             transition={{
-              duration: 0.6,
+              duration: 0.55,
+              type: "spring",
+              stiffness: 104,
+              damping: 17,
             }}
-            className="absolute inset-0 flex items-center justify-center"
+            className="absolute inset-0 w-full h-full flex items-center justify-center p-2 sm:p-4 md:p-6"
+            style={{ transformStyle: 'preserve-3d' }}
           >
-            {/* Loader Overlay */}
-            {!loaded && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-10 rounded-xl"
-              >
-                <svg
-                  className="animate-spin h-12 w-12 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
+            <div className="relative w-full h-full flex items-center justify-center">
+              
+              {/* Loader */}
+              {!isMediaLoaded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm rounded-xl z-10"
                 >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-                  />
-                </svg>
-              </motion.div>
-            )}
+                  <svg
+                    className="animate-spin h-12 w-12 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12" cy="12" r="10"
+                      stroke="currentColor" strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    />
+                  </svg>
+                </motion.div>
+              )}
 
-            {/* Media */}
-            {item.type === 'image' ? (
-              <img
-                src={item.src}
-                alt={item.alt || `Memory ${index + 1}`}
-                onLoad={() => setLoaded(true)}
-                className="max-h-full max-w-full object-contain rounded-xl select-none"
-                draggable={false}
-              />
-            ) : (
-              <video
-                src={item.src}
-                poster={item.poster}
-                autoPlay
-                muted
-                loop
-                playsInline
-                onLoadedData={() => setLoaded(true)}
-                className="max-h-full max-w-full object-contain rounded-xl select-none"
-              />
-            )}
+              {/* Media */}
+              {currentMemory.type === 'image' ? (
+                <img
+                  src={currentMemory.src}
+                  alt={currentMemory.alt || `Memory ${currentIndex + 1}`}
+                  className={getMediaClasses()}
+                  loading="eager"
+                  onLoad={() => setIsMediaLoaded(true)}
+                  draggable={false}
+                />
+              ) : (
+                <video
+                  src={currentMemory.src}
+                  poster={currentMemory.poster}
+                  className={getMediaClasses()}
+                  autoPlay
+                  muted
+                  playsInline
+                  loop
+                  onLoadedData={() => setIsMediaLoaded(true)}
+                  draggable={false}
+                />
+              )}
 
-            {/* Optional Title */}
-            {item.title && loaded && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="absolute bottom-4 left-4 right-4 bg-black/50 text-white text-center py-2 rounded"
-              >
-                <p>{item.title}</p>
-              </motion.div>
-            )}
+              {/* Title overlay */}
+              {currentMemory.title && (
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className={`absolute bottom-2 left-2 right-2 text-center p-2 rounded-md ${
+                    isDarkMode
+                      ? 'bg-black/60 text-white'
+                      : 'bg-white/80 text-gray-800'
+                  } backdrop-blur-sm`}
+                >
+                  <h3 className="text-base sm:text-lg md:text-xl font-semibold">
+                    {currentMemory.title}
+                  </h3>
+                </motion.div>
+              )}
+            </div>
+
+            {/* Decorative sparkles */}
+            <motion.div
+              className="absolute top-5 right-6 pointer-events-none"
+              animate={{
+                scale: [1, 1.17, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <div className={`w-6 h-6 ${
+                isDarkMode ? 'text-blue-200' : 'text-blue-400'
+              }`}>
+                ✨
+              </div>
+            </motion.div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Nav Buttons */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-6 z-20">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={prev}
-            className="rounded-full backdrop-blur-sm bg-white/70 hover:bg-white shadow"
-          >
-            <ChevronLeft className="h-6 w-6" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={next}
-            className="rounded-full backdrop-blur-sm bg-white/70 hover:bg-white shadow"
-          >
-            <ChevronRight className="h-6 w-6" />
-          </Button>
+        {/* Navigation Buttons */}
+        <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-4 sm:gap-7 z-20">
+          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.93 }}>
+            <Button
+              variant="outline"
+              size="lg"
+              aria-label="Previous memory"
+              className={`rounded-full w-12 h-12 sm:w-14 sm:h-14 ${
+                isDarkMode
+                  ? 'bg-blue-900/70 border-blue-200/60 text-blue-100 hover:bg-blue-800/90 hover:border-blue-200'
+                  : 'bg-white/90 border-blue-200/60 text-blue-700 hover:bg-blue-100 hover:border-blue-300'
+              } shadow-md backdrop-blur-sm transition-all duration-300`}
+              onClick={handlePrev}
+            >
+              <ChevronLeft className="h-6 w-6" />
+            </Button>
+          </motion.div>
+
+          <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.93 }}>
+            <Button
+              variant="outline"
+              size="lg"
+              aria-label="Next memory"
+              className={`rounded-full w-12 h-12 sm:w-14 sm:h-14 ${
+                isDarkMode
+                  ? 'bg-blue-900/70 border-blue-200/60 text-blue-100 hover:bg-blue-800/90 hover:border-blue-200'
+                  : 'bg-white/90 border-blue-200/60 text-blue-700 hover:bg-blue-100 hover:border-blue-300'
+              } shadow-md backdrop-blur-sm transition-all duration-300`}
+              onClick={handleNext}
+            >
+              <ChevronRight className="h-6 w-6" />
+            </Button>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
