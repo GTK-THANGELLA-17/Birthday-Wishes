@@ -1,12 +1,9 @@
+
 import React from 'react';
-import { 
-  differenceInYears, differenceInMonths, differenceInWeeks, differenceInDays, 
-  differenceInHours, differenceInMinutes, differenceInSeconds 
-} from 'date-fns';
+import { differenceInYears, differenceInMonths, differenceInWeeks, differenceInDays, differenceInHours, differenceInMinutes, differenceInSeconds } from 'date-fns';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Star, Instagram } from 'lucide-react';  // Added Instagram import
-import { Button } from '@/components/ui/button';  // Assuming you have a Button component
+import { Star } from 'lucide-react';
 
 interface AgeStatsProps {
   dob: Date;
@@ -15,8 +12,6 @@ interface AgeStatsProps {
 
 export default function AgeStats({ dob, isDarkMode }: AgeStatsProps) {
   const [seconds, setSeconds] = React.useState(0);
-  const [showMessage, setShowMessage] = React.useState(false);
-
   const now = new Date();
   
   // Calculate static values
@@ -36,21 +31,6 @@ export default function AgeStats({ dob, isDarkMode }: AgeStatsProps) {
     
     return () => clearInterval(interval);
   }, [dob]);
-
-  // Show birthday message after 2 seconds (you can adjust timing)
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowMessage(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Handle "Return Home" button click
-  const handleReturnHome = () => {
-    // Customize this behavior as needed (e.g., navigate to home page)
-    window.location.href = '/'; // simple redirect example
-  };
   
   // Get milestone message based on age
   const getMilestoneMessage = () => {
@@ -188,80 +168,6 @@ export default function AgeStats({ dob, isDarkMode }: AgeStatsProps) {
                 </p>
               </div>
             </div>
-          </motion.div>
-
-          {/* Birthday footer with enhanced animation */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: showMessage ? 1 : 0 }}
-            transition={{ duration: 1, delay: 2 }}
-            className="text-center py-8"
-          >
-            <motion.p 
-              className={`text-lg font-birthday ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}
-              animate={{
-                scale: [1, 1.05, 1],
-                y: [0, -5, 0]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              Wishing you a day as special as you are!
-            </motion.p>
-            <div className="flex justify-center mt-4">
-              <motion.div 
-                whileHover={{ scale: 1.05 }} 
-                whileTap={{ scale: 0.95 }}
-                animate={{
-                  boxShadow: isDarkMode ? 
-                    ['0 0 0px rgba(186,230,253,0)', '0 0 15px rgba(186,230,253,0.5)', '0 0 0px rgba(186,230,253,0)'] : 
-                    ['0 4px 12px rgba(96,165,250,0.2)', '0 6px 16px rgba(96,165,250,0.4)', '0 4px 12px rgba(96,165,250,0.2)']
-                }}
-                transition={{
-                  boxShadow: {
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }
-                }}
-              >
-                <Button 
-                  onClick={handleReturnHome} 
-                  className={`relative button-glow btn-edge-effect shadow-md ${
-                    isDarkMode 
-                      ? 'bg-blue-300 hover:bg-blue-400 text-gray-900 border border-blue-200' 
-                      : 'bg-blue-300 text-gray-900 border-2 border-blue-400 hover:bg-blue-400'
-                  }`}
-                >
-                  Return Home
-                </Button>
-              </motion.div>
-            </div>
-            
-            {/* Developer credit with Instagram link - updated Instagram profile */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3, duration: 0.5 }}
-              className="mt-6 flex items-center justify-center gap-2"
-            >
-              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                Developed by GTK
-              </p>
-              <motion.a
-                href="https://www.instagram.com/g_thangella_k?igsh=aWczdnVtaDR1N280"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, rotate: [0, 10, -10, 0] }}
-                whileTap={{ scale: 0.9 }}
-                className="transition-all duration-300"
-              >
-                <Instagram className={`h-5 w-5 ${isDarkMode ? 'text-orange-300' : 'text-blue-500'}`} />
-              </motion.a>
-            </motion.div>
           </motion.div>
         </CardContent>
       </Card>
